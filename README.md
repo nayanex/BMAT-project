@@ -1,0 +1,230 @@
+## **Installing Virtual Environment**
+
+`apt-get install python3-venv`
+
+## **Project SetUp**
+
+To create a virtual environment, use the following command, where ".venv" is the name of the environment folder:
+
+`python3 -m venv .venv`
+
+Activate the virtualenv (OS X & Linux):
+
+`source .venv/bin/activate`
+
+You’ll need to activate your virtual environment every time you work on your Python project. In the rare cases when you want to deactivate your virtualenv without closing your terminal session, just use the deactivate command.
+
+## **Package and Dependency Manager**
+
+To install the package, you can just run:
+
+`pip3 install <somepackage>` 
+
+That will build an extra Python library in your home directory.
+
+Running 'pip freeze',can help to check installed packages and packages versions listed in case-insensitive sorted order.
+
+Save all the packages in the file with:
+
+`pip freeze > requirements.txt`.
+
+Add `requirements.txt` to the root directory of the project. Done.
+
+If you’re going to share the project you will need to install dependencies by running
+
+`pip install -r requirements.txt`
+
+The recipient still needs to create their own virtual environment, however.
+
+**OBS:** Use `pip3 install -r requirements.txt` if you are using Python3
+
+# **Install Django**
+
+`pip3 install Django`
+
+## **Creating a Project**
+
+`django-admin startproject <my-project-name> .`
+
+This will create a **my-project-name** directory in your current directory.
+
+# **The development server**
+
+Let’s verify your Django project works.
+
+` python manage.py runserver`
+
+You’ve started the Django development server, a lightweight Web server written purely in Python.
+
+### **Changing the Port**
+
+By default, the runserver command starts the development server on the internal IP at port 8000.
+
+If you want to change the server’s port, pass it as a command-line argument. For instance, this command starts the server on port 8080:
+
+`python manage.py runserver 8080`
+
+If you want to change the server’s IP, pass it along with the port. So to listen on all public IPs (useful if you want to show off your work on other computers on your network), use:
+
+`python manage.py runserver 0.0.0.0:8000`
+
+## Creating an app
+
+To create your app, make sure you’re in the same directory as manage.py and type this command:
+
+`python manage.py startapp <app-name>`
+
+## **Work With Data, Data Models, and Migrations**
+
+Many web apps work with information stored in a database, and Django makes it easy to represent the objects in that database using models. In Django, a model is a Python class, derived from `django.db.models.Model`, that represents a specific database object, typically a table. You place these classes in an app's `models.py` file.
+
+With Django, your work with your database almost exclusively through the models you define in code. Django's "migrations" then handle all the details of the underlying database automatically as you evolve the models over time. The general workflow is as follows:
+
+1. Make changes to the models in your `models.py` file.
+2. Run `python manage.py makemigrations` to generate scripts in the migrations folder that migrate the database from its current state to the new state.
+3. Run `python manage.py migrate` to apply the scripts to the actual database.
+
+# **Get your database running**
+
+In addition to a database backend, you’ll need to make sure your Python database bindings are installed.
+
+If you’re using PostgreSQL, you’ll need the `psycopg2` package.
+
+## **Deploy Python using Docker containers**
+
+### **Install Docker CE Using the repository**
+
+Follow the instructions in the documentation:
+
+`https://docs.docker.com/install/linux/docker-ce/ubuntu/`
+
+if you use Linux Mint use:
+
+`sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"`
+
+Make sure you also read "**Manage Docker as a non-root user**":
+
+`https://docs.docker.com/install/linux/linux-postinstall/`
+
+## **Docker Files for Django app**
+
+A good base image for Django is `tiangolo/uwsgi-nginx:python3.6-alpine3.7`, which is also available for other versions of Python.
+
+This base image already contains the production-ready uwsgi and nginx servers, but does not include Django. It's also necessary to provide settings to uwsgi so it can find the app's startup code.
+
+## **Build Docker image**
+
+`docker build --rm -f "Dockerfile" -t <image-name>:latest .`
+
+When prompted for a name to give the image, use a name that follows the conventional form of `<registry or username>/<image name>:<tag>`, where `<tag>` is typically latest. Here are some examples:
+
+```
+# Examples for Azure Container Registry, prefixed with the registry name
+vsdocsregistry.azurecr.io/python-sample-vscode-django-tutorial:latest
+vsdocsregistry.azurecr.io/python-sample-vscode-flask-tutorial:latest
+vsdocsregistry.azurecr.io/myexpressapp:latest
+
+# Examples for Docker hub, prefixed with your username
+vsdocs-team/python-sample-vscode-django-tutorial:latest
+vsdocs-team/python-sample-vscode-flask-tutorial:latest
+vsdocs-team/myexpressapp:latest
+```
+
+## **Run and Test Your Container**
+
+Run and test your container locally by using the following command, replacing `<image_name>` with your specific image, and changing the port numbers as needed. For web apps, you can then open browser to `localhost:<port>` to see the running app.
+
+`docker run --rm -it -p 8000:8000 <image_name>`
+
+`docker run --rm -it -p 8000:8000 vs-code-tutorial`
+
+## My approach to the problem
+
+## **Basics of Entity Resolution with Python and Dedupe**
+
+I found this solution the most complete and detailed, so I based my solution on the article bellow.
+
+`https://medium.com/district-data-labsbasics-of-entity-resolution-with-python-and-dedupe-bc87440b64d4`
+
+
+# **Google Style Guides**
+
+For this project I am going to follow Google Style Guides convention. It is much easier to understand a large codebase when all the code in it is in a consistent style.
+
+## **YAPF - Yet Another Python Formatter**
+
+Most of the current formatters for Python --- e.g., autopep8, and pep8ify --- are made to remove lint errors from code. This has some obvious limitations. For instance, code that conforms to the PEP 8 guidelines may not be reformatted. But it doesn't mean that the code looks good.
+
+In essence, the algorithm takes the code and reformats it to the best formatting that conforms to the style guide, even if the original code didn't violate the style guide. 
+
+The goal using it is to end all holy wars about formatting - if the whole codebase of a project is simply piped through YAPF whenever modifications are made, the style remains consistent throughout the project and there's no point arguing about style in every code review.
+
+The ultimate goal is that the code YAPF produces is as good as the code that a programmer would write if they were following the style guide. It takes away some of the drudgery of maintaining your code.
+
+To install YAPF from PyPI:
+
+`$ pip3 install yapf`
+
+Usage: `yapf -i {source_file_or_directory}`
+
+here `-i` is to make changes to files in place.
+
+## **Pylint**
+
+Pylint is a python linter which checks the source code and also acts as a bug and quality checker. It has more verification checks and options than just PEP8(Python style guide).
+
+This is the most commonly used tool for linting in python.
+
+* It includes the following features:
+* Checking the length of each line
+* Checking if variable names are well-formed according to the project’s coding standard
+* Checking if declared interfaces are truly implemented.
+
+`pip3 install pylint`
+
+## **Installing Flake8**
+
+Flake8 is just a wrapper around pyflakes, pycodestyle and McCabe script (circular complexity checker) (which is used to detect complex-code).
+
+If we like Pyflakes but also want stylistic checks, we can use flake8, which combines Pyflakes with style checks against PEP 8.
+
+`pip3 install flake8`
+
+## **Tox**
+
+`pip3 install tox`
+
+## **Test Coverage**
+
+## **Continuous Integration Tools**
+
+## **Configuring Visual Studio Code to Work with Python**
+
+Add the following in your `settings.json` file:
+
+```json
+"python.unitTest.unittestEnabled": true,
+"python.linting.pylintEnabled": true,
+"python.linting.flake8Path": "${workspaceRoot}/.venv/bin/flake8",
+"python.linting.flake8Enabled": true,
+"python.linting.flake8Args": [
+    "--max-line-length=79"
+],
+"python.formatting.provider": "yapf",
+"python.formatting.blackPath": "${workspaceRoot}/.venv/bin/yapf",
+"editor.formatOnSave": true,
+```
+
+## **RESOURCES**
+
+- https://docs.python.org/3/tutorial/venv.html 
+- https://code.visualstudio.com/docs/python/tutorial-deploy-containers
+- https://pip.readthedocs.io/en/stable/user_guide/#requirements-files 
+- https://google.github.io/styleguide/pyguide.html
+- https://github.com/google/yapf/
+- http://books.agiliq.com/projects/essential-python-tools/en/latest/linters.html
+- https://fedoramagazine.org/vscode-python-howto/
+- https://code.visualstudio.com/docs/python/tutorial-django
+- https://marketplace.visualstudio.com/items?itemName=alexcvzz.vscode-sqlite
+- https://docs.docker.com/install/linux/docker-ce/ubuntu/
+- https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-apt?view=azure-cli-latest
