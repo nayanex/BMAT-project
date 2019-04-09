@@ -52,7 +52,7 @@ This will create a **my-project-name** directory in your current directory.
 
 Let’s verify your Django project works.
 
-` python manage.py runserver`
+`python manage.py runserver`
 
 You’ve started the Django development server, a lightweight Web server written purely in Python.
 
@@ -73,6 +73,18 @@ If you want to change the server’s IP, pass it along with the port. So to list
 To create your app, make sure you’re in the same directory as manage.py and type this command:
 
 `python manage.py startapp <app-name>`
+
+## **Use the collectstatic command**
+
+For production deployments, you typically collect all the static files from your apps into a single folder using the python manage.py collectstatic command. You can then use a dedicated static file server to serve those files, which typically results in better overall performance. The following steps show how this collection is made, although you don't use the collection when running with the Django development server.
+
+1. In `web_project/settings.py`, add the following line that defines a location where static files are collected when you use the `collectstatic` command:
+
+`STATIC_ROOT = os.path.join(BASE_DIR, 'static_collected')`
+
+2. In the Terminal, run the command `python manage.py collectstatic` and observe that `hello/site.css` is copied into the top level `static_collected` folder alongside `manage.py`.
+
+3. In practice, run `collectstatic` any time you change static files and before deploying into production.
 
 ## **Work With Data, Data Models, and Migrations**
 
