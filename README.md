@@ -78,7 +78,7 @@ To create your app, make sure you’re in the same directory as manage.py and ty
 
 For production deployments, you typically collect all the static files from your apps into a single folder using the python manage.py collectstatic command. You can then use a dedicated static file server to serve those files, which typically results in better overall performance. The following steps show how this collection is made, although you don't use the collection when running with the Django development server.
 
-1. In `web_project/settings.py`, add the following line that defines a location where static files are collected when you use the `collectstatic` command:
+1. In `works_single_view/settings.py`, add the following line that defines a location where static files are collected when you use the `collectstatic` command:
 
 `STATIC_ROOT = os.path.join(BASE_DIR, 'static_collected')`
 
@@ -226,6 +226,21 @@ DATABASES = {
 }
 ```
 
+## **Creating Environmental Variables [OPTIONAL]**
+
+Now, let's turn our shell variable into an environmental variable. We can do this by exporting the variable. The command to do so is appropriately named:
+
+`export TEST_VAR="Testing  export"`
+
+`printenv | grep TEST_VAR`
+
+TEST_VAR=Hello World!
+This time, our variable shows up. Let's try our experiment with our child shell again:
+
+bash
+echo $TEST_VAR
+Hello World!
+
 ## **Deploy Python using Docker containers**
 
 ### **Install Docker CE Using the repository**
@@ -369,3 +384,5 @@ Add the following in your `settings.json` file:
 - http://www.postgresqltutorial.com/postgresql-unique-constraint/
 - https://docs.djangoproject.com/en/2.1/ref/databases/#postgresql-notes
 - https://docs.djangoproject.com/en/2.1/topics/testing/overview/
+- https://pybit.es/persistent-environment-variables.html
+- https://medium.com/agatha-codes/painless-postgresql-django-d4f03364989
