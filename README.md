@@ -96,11 +96,135 @@ With Django, your work with your database almost exclusively through the models 
 2. Run `python manage.py makemigrations` to generate scripts in the migrations folder that migrate the database from its current state to the new state.
 3. Run `python manage.py migrate` to apply the scripts to the actual database.
 
-# **Get your database running**
+# **Database Bindings**
 
 In addition to a database backend, you’ll need to make sure your Python database bindings are installed.
 
-If you’re using PostgreSQL, you’ll need the `psycopg2` package.
+If you’re using PostgreSQL, you’ll need the `psycopg2` package. Use these following commands
+
+`sudo apt-get install postgresql postgresql-contrib postgresql`
+
+`sudo apt-get install python-psycopg2`
+
+`sudo apt-get install libpq-dev`
+
+The installation procedure created a user account called `postgres` that is associated with the default Postgres role. In order to use Postgres, we can log into that account.
+
+Switch over to the postgres account on your server by typing:
+
+`sudo -i -u postgres`
+
+You can now access a Postgres prompt immediately by typing:
+
+`psql`
+
+You will be logged in and able to interact with the database management system right away.
+
+Exit out of the PostgreSQL prompt by typing:
+
+`\q`
+
+
+## **Connecting to my Database**
+
+psql is a regular PostgreSQL client application. In order to connect to a database you need to know the name of your target database, the host name and port number of the server, and what user name you want to connect as. psql can be told about those parameters via command line options, namely -d, -h, -p, and -U respectively. 
+
+`psql -h <host> -p <port> -u <database>`
+`psql -h <host> -p <port> -U <username> -W <password> <database>`
+`psql -h hostname -U username -d database`
+
+
+## **Configure PostgreSQL to allow remote connection [OPTIONAL]**
+
+By default PostgreSQL is configured to be bound to “localhost”.
+
+The port `5432` is bound to `127.0.0.1`. It means any attempt to connect to the postgresql server from outside the machine will be refused. We can try hitting the port 5432 by using telnet.
+
+`telnet <host_ip_address> 5432`
+
+## **Configuring postgresql.conf**
+
+In order to fix this issue we need to find `postgresql.conf`, which if you are using linux, can be found at:
+
+`/etc/postgresql/<version>/main`
+
+Open `postgresql.conf` file and replace line
+
+`listen_addresses = 'localhost'`
+
+with
+
+`listen_addresses = '*'`
+
+You can use Vim to do that:
+
+`sudo vim postgresql.conf`
+
+Add the following lines to the `pg_hba.conf`
+
+```
+# Allow non-local connections
+host    all             all             0.0.0.0/0               md5
+host    all             all             ::/0                    md5
+
+```
+
+Now restart postgresql server and type:
+
+`netstat -nlt`
+
+Restart the server
+
+`sudo service postgresql restart`
+
+List all databases
+
+`\l list databases`
+
+First Connect with the Database using following command
+
+`\c database_name`
+
+If you only want to see the list of tables you've created, you may only say:
+
+`\dt`
+
+## **CREATING OUR DATABASE AND TABLES**
+
+Run the file `data/works_single_view.sql` in order to generate the Database and Table of the project
+
+`\i path_to_sql_file`
+
+## **GUI Tools for PostgreSQL**
+
+https://dbeaver.io/download/
+
+## **Optimizing PostgreSQL’s configuration**
+
+Django needs the following parameters for its database connections:
+
+* **client_encoding: 'UTF8'**,
+* **default_transaction_isolation: 'read committed'** by default, or the value set in the connection options (see below),
+* **timezone: 'UTC'** **when USE_TZ** is **True**, value of **TIME_ZONE** otherwise.
+
+If these parameters already have the correct values, Django won’t set them for every new connection, which improves performance slightly. You can configure them directly in postgresql.conf or more conveniently per database user with ALTER ROLE.
+
+Django will work just fine without this optimization, but each new connection will do some additional queries to set these parameters.
+
+When connecting to other database backends, such as MySQL, Oracle, or PostgreSQL, additional connection parameters will be required. See the ENGINE setting below on how to specify other database types. This example is for PostgreSQL:
+
+```
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'mydatabase',
+        'USER': 'mydatabaseuser',
+        'PASSWORD': 'mypassword',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
+}
+```
 
 ## **Deploy Python using Docker containers**
 
@@ -240,3 +364,8 @@ Add the following in your `settings.json` file:
 - https://marketplace.visualstudio.com/items?itemName=alexcvzz.vscode-sqlite
 - https://docs.docker.com/install/linux/docker-ce/ubuntu/
 - https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-apt?view=azure-cli-latest
+- http://www.postgresqltutorial.com/postgresql-hstore/
+- http://www.postgresqltutorial.com/postgresql-array/
+- http://www.postgresqltutorial.com/postgresql-unique-constraint/
+- https://docs.djangoproject.com/en/2.1/ref/databases/#postgresql-notes
+- https://docs.djangoproject.com/en/2.1/topics/testing/overview/
