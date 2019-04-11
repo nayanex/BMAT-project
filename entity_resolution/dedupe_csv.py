@@ -72,7 +72,7 @@ def main():
     # If a settings file already exists, we'll just load that and skip training
     if os.path.exists(settings_file):
         print('reading from', settings_file)
-        with open(settings_file, 'r') as f:
+        with open(settings_file, 'rb') as f:
             deduper = dedupe.StaticDedupe(f)
     else:
         # ## Training
@@ -121,7 +121,7 @@ def main():
         # this file.
         with open(settings_file, 'wb') as sf:
             deduper.writeSettings(sf)
-       
+     
     # Find the threshold that will maximize a weighted average of our
     # precision and recall.  When we set the recall weight to 2, we are
     # saying we care twice as much about recall as we do precision.

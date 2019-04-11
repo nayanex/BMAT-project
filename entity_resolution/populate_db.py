@@ -24,13 +24,13 @@ def treat_iswc(iswc_list):
     return iswc_list[0] if iswc_list else None
 
 
-def import2database(con):
+def import2database(con, song_metadata_df, label):
 
     cur = con.cursor()
 
     print('Importing song metadata to works_single_view database...')
 
-    for _, group in confident_duplicated_df.groupby('Cluster ID'): 
+    for _, group in song_metadata_df.groupby(label):
         title = max(group['title'].tolist(), key=len).split('|')[0]
         contributors = max(group['contributors'].tolist(), key=len).split('|')
         iswc = treat_iswc(group['iswc'])
@@ -42,11 +42,10 @@ def import2database(con):
                     (title, contributors, iswc, sources, source_ids))
 
     con.commit()
-    con.close()
 
 
 try:
-    import2database(con)
+    import2database(con, confident_duplicated_df, 'Cluster ID')
+    import2database(con, non_confident_duplicated_df, 'iswc')
 finally:
     con.close()
-
