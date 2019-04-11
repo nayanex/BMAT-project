@@ -12,6 +12,6 @@ CREATE TABLE song_metadata(
     contributors TEXT[],
     iswc VARCHAR(11) UNIQUE,
     sources TEXT[],
-    source_identifiers INT[]
+    source_ids INT[]
 );
 

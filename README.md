@@ -387,3 +387,4 @@ Add the following in your `settings.json` file:
 - https://pybit.es/persistent-environment-variables.html
 - https://medium.com/agatha-codes/painless-postgresql-django-d4f03364989
 - https://medium.com/district-data-labs/basics-of-entity-resolution-with-python-and-dedupe-bc87440b64d4
+- http://initd.org/psycopg/docs/usage.html
