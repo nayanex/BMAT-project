@@ -4,10 +4,6 @@ CREATE DATABASE works_single_view;
 
 \c works_single_view 
 
-DROP EXTENSION IF EXISTS hstore;
-
-CREATE EXTENSION hstore;
-
 DROP TABLE IF EXISTS song_metadata;
 
 CREATE TABLE song_metadata(
@@ -15,6 +11,7 @@ CREATE TABLE song_metadata(
     title VARCHAR(200),
     contributors TEXT[],
     iswc VARCHAR(11) UNIQUE,
-    source_id_key_pairs hstore
+    sources TEXT[],
+    source_identifiers INT[]
 );
 

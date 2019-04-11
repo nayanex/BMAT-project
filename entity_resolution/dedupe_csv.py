@@ -121,7 +121,7 @@ def main():
         # this file.
         with open(settings_file, 'wb') as sf:
             deduper.writeSettings(sf)
-         
+       
     # Find the threshold that will maximize a weighted average of our
     # precision and recall.  When we set the recall weight to 2, we are
     # saying we care twice as much about recall as we do precision.
@@ -143,7 +143,7 @@ def main():
 
     # ## Writing Results
 
-    # Write our original data back out to a CSV with a new column called 
+    # Write our original data back out to a CSV with a new column called
     # 'Cluster ID' which indicates which records refer to each other.
 
     cluster_membership = {}
@@ -154,7 +154,7 @@ def main():
         canonical_rep = dedupe.canonicalize(cluster_d)
         for record_id, score in zip(id_set, scores):
             cluster_membership[record_id] = {
-                "cluster id" : cluster_id,
+                "cluster id": cluster_id,
                 "canonical representation" : canonical_rep,
                 "confidence": score
             }

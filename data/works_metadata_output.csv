@@ -1,0 +1,29 @@
+Cluster ID,confidence_score,prim_key,title,contributors,iswc,source,id,canonical_prim_key,canonical_title,canonical_contributors,canonical_iswc,canonical_source,canonical_id
+0,0.9999979,0,Shape of You,Edward Sheeran,T9204649558,warner,1,b'0',b'shape of you',b'edward sheeran',b't9204649558',b'warner',b'1'
+0,0.9999979,1,Shape of You,Edward Christopher Sheeran,T9204649558,sony,1,b'0',b'shape of you',b'edward sheeran',b't9204649558',b'warner',b'1'
+1,0.99998236,2,Adventure of a Lifetime,O Brien Edward John|Yorke Thomas Edward|Greenwood Colin Charles,T0101974597,warner,2,b'2',b'adventure of a lifetime',b'o brien edward john|yorke thomas edward|greenwood colin charles',b't0101974597',b'warner',b'2'
+1,0.99998236,3,Adventure of a Lifetime,O Brien Edward John|Selway Philip James,T0101974597,warner,3,b'2',b'adventure of a lifetime',b'o brien edward john|yorke thomas edward|greenwood colin charles',b't0101974597',b'warner',b'2'
+2,1.0,4,Me Enamoré,Rayo Gibo Antonio|Ripoll Shakira Isabel Mebarak,T9214745718,universal,1,b'4',b'me enamore',b'rayo gibo antonio|ripoll shakira isabel mebarak',b't9214745718',b'universal',b'1'
+2,1.0,5,Me Enamore,Rayo Gibo Antonio|Ripoll Shakira Isabel Mebarak,T9214745718,warner,4,b'4',b'me enamore',b'rayo gibo antonio|ripoll shakira isabel mebarak',b't9214745718',b'universal',b'1'
+3,0.99999946,6,Je ne sais pas,Obispo Pascal Michel|Florence Lionel Jacques,,sony,2,b'6',b'je ne sais pas',b'obispo pascal michel|florence lionel jacques',b't0046951705',b'sony',b'2'
+3,0.99999946,7,Je ne sais pas,Obispo Pascal Michel|Florence Lionel Jacques,T0046951705,sony,3,b'6',b'je ne sais pas',b'obispo pascal michel|florence lionel jacques',b't0046951705',b'sony',b'2'
+4,0.9999745,8,Lanterna dos Afogados,Os Paralamas do Sucesso,,EMI,1,b'8',b'lanterna dos afogados',b'os paralamas do sucesso',b'',b'emi',b'1'
+4,0.9999745,9,Lanterna dos afogados,Paralamas do Sucesso,,warner,5,b'8',b'lanterna dos afogados',b'os paralamas do sucesso',b'',b'emi',b'1'
+5,0.99998444,10,Rocket Man,Elton John,,Virgin Records,1,b'10',b'rocket man',b'elton john',b'',b'virgin records',b'1'
+5,0.99998444,11,Rocket Man (I think It's Going To Be A Long Long Time),Elton John,,universal,2,b'10',b'rocket man',b'elton john',b'',b'virgin records',b'1'
+6,0.9999926,12,Can't Stop the Feeling,Justin Timberlake,,Virgin Records,2,b'12',"b""can't stop the feeling""",b'justin timberlake',b'',b'virgin records',b'2'
+6,0.9999926,13,CAN'T STOP THE FEELING! (Original Song from DreamWorks Animation's TROLLS),Justin Timberlake,,EMI,2,b'12',"b""can't stop the feeling""",b'justin timberlake',b'',b'virgin records',b'2'
+7,0.9999976,14,Fuego,ALOK,,Spinnin Records,1,b'14',b'fuego',b'alok',b'',b'spinnin records',b'1'
+7,0.9999976,15,Fuego,Alok|Bhaskar,,sony,5,b'14',b'fuego',b'alok',b'',b'spinnin records',b'1'
+8,0.99999404,16,The Order Of Death - 2011 - Remaster,Public Image,,Virgin Records,3,b'16',b'the order of death - 2011 - remaster',b'public image',b'',b'virgin records',b'3'
+8,0.99999404,17,The Order of Death,Public Image Ltd.,,Virgin Records,4,b'16',b'the order of death - 2011 - remaster',b'public image',b'',b'virgin records',b'3'
+9,0.99999946,18,Hell To The Liars, London Grammar,,universal,3,b'18',b'hell to the liars',b'london grammar',b'',b'universal',b'3'
+9,0.99999946,19,Hell To The Liars, London Grammar,,emi,3,b'18',b'hell to the liars',b'london grammar',b'',b'universal',b'3'
+10,0.99999946,20,Slow Dancing in a Burning Room,John Mayer,, Spinnin Records,2,b'20',b'slow dancing in a burning room',b'john mayer',b't0727015453',b'spinnin records',b'2'
+10,0.99999946,21,Slow Dancing in a Burning Room,John Mayer,T0727015453,universal,4,b'20',b'slow dancing in a burning room',b'john mayer',b't0727015453',b'spinnin records',b'2'
+11,,22,Gravity,J. Mayer,T0725572360,emi,4,,,,,,
+12,,23,Gravity,John Mayer,T0725572360,Spinnin Records,3,,,,,,
+13,,24,Have You Ever Needed Someone So Bad,DEF LEPPARD,T0100468696,Virgin Records,4,,,,,,
+14,,25,ROCK YOU LIKE A HURRICANE,SCORPIONS,T8005131250,Spinnin Records,4,,,,,,
+15,,26,Dancing With The Moonlight,Scorpions,T1015459411,warner,6,,,,,,
+16,,27,Always Where I need To Be,The Kooks,T9002082500,universal,5,,,,,,
