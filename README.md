@@ -379,7 +379,6 @@ Add the following in your `settings.json` file:
 - https://marketplace.visualstudio.com/items?itemName=alexcvzz.vscode-sqlite
 - https://docs.docker.com/install/linux/docker-ce/ubuntu/
 - https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-apt?view=azure-cli-latest
-- http://www.postgresqltutorial.com/postgresql-hstore/
 - http://www.postgresqltutorial.com/postgresql-array/
 - http://www.postgresqltutorial.com/postgresql-unique-constraint/
 - https://docs.djangoproject.com/en/2.1/ref/databases/#postgresql-notes

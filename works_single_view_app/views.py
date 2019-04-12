@@ -1,10 +1,10 @@
-from datetime import datetime
-from django.http import HttpResponse
 from django.shortcuts import render
 from django.shortcuts import redirect
-from works_single_view_app.forms import SongMetadataForm
+from works_single_view_app.forms import SongMetadataForm, FindSongForm
 from works_single_view_app.models import SongMetadata
 from django.views.generic import ListView
+from django.http import HttpResponse
+from django.core import serializers
 
 
 class HomeListView(ListView):
@@ -17,25 +17,22 @@ class HomeListView(ListView):
 
 
 def find_song(request):
-    return render(request, "works_single_view_app/find_song.html")
+    form = FindSongForm(request.POST or None)
+
+    if request.method == "POST":
+        if form.is_valid():
+            queryset = SongMetadata.objects.filter(iswc=form.data['iswc']).first(),
+            qs_json = serializers.serialize('json', queryset)
+            return HttpResponse(qs_json, content_type='application/json')
+    else:
+        return render(request, "works_single_view_app/find_song.html", {"form": form})
 
 
 def contact(request):
     return render(request, "works_single_view_app/contact.html")
 
 
-def hello_there(request, name):
-    return render(
-        request,
-        'hello/hello_there.html',
-        {
-            'name': name,
-            'date': datetime.now()
-        }
-    )
-
-
-def song_metadata(request):
+def add_song_metadata(request):
     form = SongMetadataForm(request.POST or None)
 
     if request.method == "POST":

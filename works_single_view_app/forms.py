@@ -6,3 +6,9 @@ class SongMetadataForm(forms.ModelForm):
     class Meta:
         model = SongMetadata
         fields = ("title", "contributors", "iswc", "sources", "source_ids",)
+
+
+class FindSongForm(forms.ModelForm):
+    class Meta:
+        model = SongMetadata
+        fields = ("iswc",)
