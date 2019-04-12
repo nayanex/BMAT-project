@@ -21,6 +21,8 @@ def find_song(request):
     form = FindSongForm(request.POST or None)
 
     if request.method == "POST":
+        print("IS FORM VALUD")
+        print(form.is_valid())
         if form.is_valid():
             queryset = SongMetadata.objects.filter(iswc=form.data['iswc']).first(),
             qs_json = serializers.serialize('json', queryset)
