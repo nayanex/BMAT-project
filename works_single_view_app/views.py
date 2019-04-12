@@ -5,6 +5,7 @@ from works_single_view_app.models import SongMetadata
 from django.views.generic import ListView
 from django.http import HttpResponse
 from django.core import serializers
+from works_single_view_app.resources import WorksSingleViewResource
 
 
 class HomeListView(ListView):
@@ -25,11 +26,15 @@ def find_song(request):
             qs_json = serializers.serialize('json', queryset)
             return HttpResponse(qs_json, content_type='application/json')
     else:
-        return render(request, "works_single_view_app/find_song.html", {"form": form})
+        return render(request, "works_single_view_app/find_song.html", {"form":form})
 
 
-def contact(request):
-    return render(request, "works_single_view_app/contact.html")
+def export2csv(request):
+    song_resource = WorksSingleViewResource()
+    dataset = song_resource.export()
+    response = HttpResponse(dataset.csv, content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="works_single_view.csv"'
+    return response
 
 
 def add_song_metadata(request):
@@ -41,4 +46,4 @@ def add_song_metadata(request):
             song.save()
             return redirect("home")
     else:
-        return render(request, "works_single_view_app/song_metadata.html", {"form": form})
+        return render(request, "works_single_view_app/song_metadata.html", {"form":form})

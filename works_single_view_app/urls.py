@@ -13,6 +13,6 @@ home_list_view = views.HomeListView.as_view(
 urlpatterns = [
     path("", home_list_view, name="home"),
     path("find_song/", views.find_song, name="find_song"),
-    path("contact/", views.contact, name="contact"),
+    path("export2csv/", views.export2csv, name="export2csv"),
     path("add_song_metadata/", views.add_song_metadata, name="add_song_metadata"),
 ]

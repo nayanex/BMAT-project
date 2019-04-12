@@ -389,3 +389,4 @@ Add the following in your `settings.json` file:
 - http://initd.org/psycopg/docs/usage.html
 - https://docs.djangoproject.com/en/2.2/ref/contrib/postgres/fields/#arrayfield
 - https://docs.djangoproject.com/en/2.2/topics/db/queries/
+- https://simpleisbetterthancomplex.com/packages/2016/08/11/django-import-export.html
