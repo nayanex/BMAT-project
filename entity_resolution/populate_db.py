@@ -37,7 +37,7 @@ def import2database(con, song_metadata_df, label):
         sources = group['source'].tolist()
         source_ids = group['id'].tolist()
 
-        cur.execute("INSERT INTO song_metadata (title, contributors, iswc, \
+        cur.execute("INSERT INTO works_single_view_app_songmetadata (title, contributors, iswc, \
             sources, source_ids) VALUES (%s, %s, %s, %s, %s)",
                     (title, contributors, iswc, sources, source_ids))
 

@@ -3,5 +3,32 @@
     Home
 {% endblock %}
 {% block content %}
-    <p>Home page for the Visual Studio Code Django tutorial.</p>
+    <h2>Works Single View</h2>
+
+    {% if song_list %}
+        <table class="song_list">
+            <thead>
+            <tr>
+                <th>Title</th>
+                <th>Contributors</th>
+                <th>ISWC</th>
+                <th>Sources</th>
+                <th>IDs</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for song in song_list %}
+                <tr>
+                    <td>{{ song.title }}</td>
+                    <td>{{ song.contributors }}</td>
+                    <td>{{ song.iswc }}</td>
+                    <td>{{ song.sources }}</td>
+                    <td>{{ song.source_ids }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No songs available. Use the <a href="{% url 'song' %}">Song Metadata Form</a>.</p>
+    {% endif %}
 {% endblock %}

@@ -388,3 +388,5 @@ Add the following in your `settings.json` file:
 - https://medium.com/agatha-codes/painless-postgresql-django-d4f03364989
 - https://medium.com/district-data-labs/basics-of-entity-resolution-with-python-and-dedupe-bc87440b64d4
 - http://initd.org/psycopg/docs/usage.html
+- https://docs.djangoproject.com/en/2.2/ref/contrib/postgres/fields/#arrayfield
+- https://docs.djangoproject.com/en/2.2/topics/db/queries/
