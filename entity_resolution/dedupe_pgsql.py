@@ -1,73 +1,80 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Apr 11 15:04:10 2014
-
-@author: nathanhoeft
-This is an example of using dedupe.match againsts a dataset from a postgresql table.
-For larger datasets, please see the mysql example.
-
-__Note:__ You will need to run the postgres_init_db.py script before executing this script.
-"""
-
 import dedupe
 import os
 import re
 import collections
 import time
-import logging
-import optparse
 
 import psycopg2 as psy
 import psycopg2.extras
 from unidecode import unidecode
 
-settings_file = 'pgsql_example/postgres_settings'
-training_file = 'pgsql_example/postgres_training.json'
+settings_file = 'entity_resolution/postgres_settings'
+training_file = 'entity_resolution/postgres_training.json'
 
 start_time = time.time()
 
-con = psy.connect(database='dedupe_example', user = 'postgres', host='localhost')
+con = psy.connect(database='works_single_view',
+                  user='postgres',
+                  host='localhost')
 
-con2 = psy.connect(database='dedupe_example', user = 'postgres', host='localhost')
+con2 = psy.connect(database='works_single_view',
+                   user='postgres', 
+                   host='localhost')
 
-c = con.cursor(cursor_factory=psy.extras.RealDictCursor)
+cur = con.cursor(cursor_factory=psy.extras.RealDictCursor)
 
-MAILING_SELECT = 'SELECT id,site_name, address, zip, phone FROM csv_messy_data'
+SONG_MDT_SELECT = 'SELECT id, title, contributors, iswc FROM\
+                   works_single_view_app_songmetadata'
+
 
 def preProcess(column):
-    try : # python 2/3 string differences
+    if type(column) is list:
+        column = '|'.join(column)
+        print("JOOOOIN")
+        
+    if isinstance(column, int) or column is None:
+        return column
+        
+    try:
         column = column.decode('utf8')
     except AttributeError:
         pass
+    print("AAAQUIIIII")
+    print(column)
     column = unidecode(column)
     column = re.sub('  +', ' ', column)
     column = re.sub('\n', ' ', column)
     column = column.strip().strip('"').strip("'").lower().strip()
-    if not column :
+    if not column:
         column = None
     return column
 
+
 print('importing data ...')
-c.execute(MAILING_SELECT)
-data= c.fetchall()
+cur.execute(SONG_MDT_SELECT)
+data = cur.fetchall()
 data_d = {}
 for row in data:
+    
     clean_row = [(k, preProcess(v)) for (k, v) in row.items()]
     row_id = int(row['id'])
     data_d[row_id] = dict(clean_row)
+    print("data DDDDDDDDDDDDDDD pooooorra")
+    print(data_d)
+    print("data ACCAAABOU pooooorra")
 
 if os.path.exists(settings_file):
     print('reading from', settings_file)
-    with open(settings_file) as sf :
+    with open(settings_file) as sf:
         deduper = dedupe.StaticDedupe(sf)
+    
 
 else:
     fields = [
-        {'field' : 'site_name', 'type': 'String'},
-        {'field' : 'address', 'type': 'String'},
-        {'field' : 'zip', 'type': 'String', 'has missing' : True},
-        {'field' : 'phone', 'type': 'String', 'has missing' : True},
-        ]
+        {'field': 'title', 'type': 'String'},
+        {'field': 'contributors', 'type': 'String'},
+        {'field': 'iswc', 'type': 'Exact', 'has missing': True},
+    ]
 
     deduper = dedupe.Dedupe(fields)
 
@@ -75,7 +82,7 @@ else:
 
     if os.path.exists(training_file):
         print('reading labeled examples from ', training_file)
-        with open(training_file) as tf :
+        with open(training_file) as tf:
             deduper.readTraining(tf)
 
     print('starting active labeling...')
@@ -83,11 +90,11 @@ else:
     dedupe.consoleLabel(deduper)
 
     deduper.train()
-    
-    with open(training_file, 'w') as tf :
+
+    with open(training_file, 'w') as tf:
         deduper.writeTraining(tf)
 
-    with open(settings_file, 'wb') as sf :
+    with open(settings_file, 'wb') as sf:
         deduper.writeSettings(sf)
 
 print('blocking...')
@@ -99,38 +106,40 @@ clustered_dupes = deduper.match(data_d, threshold)
 
 print('# duplicate sets', len(clustered_dupes))
 
-c2 = con2.cursor()
-c2.execute('SELECT * FROM csv_messy_data')
-data = c2.fetchall()
+cur2 = con2.cursor()
+cur2.execute('SELECT * FROM works_single_view_app_songmetadata')
+data = cur2.fetchall()
 
 full_data = []
 
-cluster_membership = collections.defaultdict(lambda : 'x')
+cluster_membership = collections.defaultdict(lambda: 'x')
 for cluster_id, (cluster, score) in enumerate(clustered_dupes):
     for record_id in cluster:
         for row in data:
             if record_id == int(row[0]):
                 row = list(row)
-                row.insert(0,cluster_id)
+                row.insert(0, cluster_id)
                 row = tuple(row)
                 full_data.append(row)
 
-columns = "SELECT column_name FROM information_schema.columns WHERE table_name = 'csv_messy_data'"                
-c2.execute(columns)
-column_names = c2.fetchall()
-column_names = [x[0] for x in column_names]
-column_names.insert(0,'cluster_id')
+columns = "SELECT column_name FROM information_schema.columns WHERE\
+          table_name = 'works_single_view_app_songmetadata'"
 
-c2.execute('DROP TABLE IF EXISTS deduped_table')
+cur2.execute(columns)
+column_names = cur2.fetchall()
+column_names = [x[0] for x in column_names]
+column_names.insert(0, 'cluster_id')
+
+cur2.execute('DROP TABLE IF EXISTS deduped_table')
 field_string = ','.join('%s varchar(200)' % name for name in column_names)
-c2.execute('CREATE TABLE deduped_table (%s)' % field_string)
+cur2.execute('CREATE TABLE deduped_table (%s)' % field_string)
 con2.commit()
 
 num_cols = len(column_names)
-mog = "(" + ("%s,"*(num_cols -1)) + "%s)"
-args_str = ','.join(c2.mogrify(mog,x).decode('utf-8') for x in full_data)
-values = "("+ ','.join(x for x in column_names) +")"
-c2.execute("INSERT INTO deduped_table %s VALUES %s" % (values, args_str))
+mog = "(" + ("%s,"*(num_cols - 1)) + "%s)"
+args_str = ','.join(cur2.mogrify(mog, x).decode('utf-8') for x in full_data)
+values = "(" + ','.join(x for x in column_names) + ")"
+cur2.execute("INSERT INTO deduped_table %s VALUES %s" % (values, args_str))
 con2.commit()
 con2.close()
 con.close()
