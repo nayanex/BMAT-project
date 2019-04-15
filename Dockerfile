@@ -31,10 +31,11 @@ ADD . /app
 # "attempt to write to a readonly database", respectively, whenever the app attempts to
 # write to the database.
 RUN chmod g+w /app
-RUN chmod g+w /app/db.sqlite3
+#RUN chmod g+w /app/db.sqlite3
 
 RUN python3 -m pip install -U pip
 RUN apk add --no-cache --update python3-dev  gcc build-base
+
 
 # Make sure dependencies are installed
 RUN python3 -m pip install -r requirements.txt

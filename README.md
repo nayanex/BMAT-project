@@ -1,3 +1,59 @@
+# PART 1
+
+
+**INSTRUCTIONS TO RUN THE FILES**
+
+In order to reconcile and populate the database do the following:
+
+ 1. ` python entity_resolution/dedupe_csv.py`
+
+This is going to run `dedupe.io` a library that uses machine learning to find duplicate data.
+
+
+While you run this script you gonna have to answer some questions to the algorithm so it can understand what is similar and what is different.
+
+
+
+After run the above script you gonna fave training files generated called:
+
+`csv_song_metadata_learned_settings`
+`csv_song_metadata_training.json`
+
+
+Now you can populate the databate disregarding the duplicate data by running:
+
+ 2. `python entity_resolution/populate_db.py `
+
+**QUESTION 1, QUESTION 2 - ANSWER**
+
+## **Basics of Entity Resolution with Python and Dedupe**
+
+I found this solution the most complete and detailed, so I based my solution on the article bellow.
+
+`https://medium.com/district-data-labsbasics-of-entity-resolution-with-python-and-dedupe-bc87440b64d4`
+
+
+# PART 2
+
+To run the API, do the following:
+
+`python manage.py runserver`
+
+You gonna see a list of songs metadata. You are also going to be able to add news song metadata, and:
+
+1. Query the Works Single View by ISWC in order to get the metadata related to that work.
+2. Export the Single View metadata in CSV format.
+
+3. Import (upload) files with works_metadata.csv format and reconcile the metadata into the Works Single View.
+
+For that I created the file `dedupe_pgsql.py` in the folder `entity_resolution`
+
+Run `python entity_resolution/populate_db.py` again, so you can have duplicate data in the database.
+and after that run `python entity_resolution/dedupe_pgsql.py `, so that you can find duplicate data in the database.
+
+**OBS**: See instructions bellow to create the database.
+
+
 ## **Installing Virtual Environment**
 
 `apt-get install python3-venv`
@@ -82,7 +138,7 @@ For production deployments, you typically collect all the static files from your
 
 `STATIC_ROOT = os.path.join(BASE_DIR, 'static_collected')`
 
-2. In the Terminal, run the command `python manage.py collectstatic` and observe that `hello/site.css` is copied into the top level `static_collected` folder alongside `manage.py`.
+2. In the Terminal, run the command `python manage.py collectstatic` and observe that `works_single_view_app/site.css` is copied into the top level `static_collected` folder alongside `manage.py`.
 
 3. In practice, run `collectstatic` any time you change static files and before deploying into production.
 
@@ -288,14 +344,6 @@ Run and test your container locally by using the following command, replacing `<
 `docker run --rm -it -p 8000:8000 <image_name>`
 
 `docker run --rm -it -p 8000:8000 vs-code-tutorial`
-
-## My approach to the problem
-
-## **Basics of Entity Resolution with Python and Dedupe**
-
-I found this solution the most complete and detailed, so I based my solution on the article bellow.
-
-`https://medium.com/district-data-labsbasics-of-entity-resolution-with-python-and-dedupe-bc87440b64d4`
 
 
 # **Google Style Guides**

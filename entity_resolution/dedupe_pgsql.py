@@ -67,8 +67,6 @@ if os.path.exists(settings_file):
     print('reading from', settings_file)
     with open(settings_file) as sf:
         deduper = dedupe.StaticDedupe(sf)
-    
-
 else:
     fields = [
         {'field': 'title', 'type': 'String'},
