@@ -49,9 +49,15 @@ You gonna see a list of songs metadata. You are also going to be able to add new
 For that I created the file `dedupe_pgsql.py` in the folder `entity_resolution`
 
 Run `python entity_resolution/populate_db.py` again, so you can have duplicate data in the database.
-and after that run `python entity_resolution/dedupe_pgsql.py `, so that you can find duplicate data in the database.
+and after that run `python entity_resolution/dedupe_pgsql.py `, so that you can find duplicate data in the table `deduped_table`.
 
 **OBS**: See instructions bellow to create the database.
+
+**QUESTIONS 1 AND 2 - ANSWERS**
+
+It wouldnt, my stratetegy would adapt the script `pgsql_big_dedupe_example`
+
+https://github.com/dedupeio/dedupe-examples/tree/master/pgsql_big_dedupe_example
 
 
 ## **Installing Virtual Environment**
